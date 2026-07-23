@@ -5,6 +5,10 @@ import Footer from '@/components/Footer';
 export const metadata = {
   title: 'CampusStay — Campus Hostel Finder',
   description: 'Browse verified hostel listings near your university.',
+  icons: {
+    icon: '/favicon.png',      // browser tab icon (the new logo)
+    apple: '/logo.png',        // iOS home-screen icon
+  },
 };
 
 export default function RootLayout({ children }) {
