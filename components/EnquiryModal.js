@@ -1,4 +1,5 @@
 'use client';
+import Icon from './Icon';
 // Enquiry modal — ported from views/components/enquiry_modal.php + main.js
 import { useState, useEffect } from 'react';
 import { formatWhatsApp } from '@/lib/utils';
@@ -35,12 +36,16 @@ export default function EnquiryModal({ open, room, onClose }) {
         <button className="modal-close" aria-label="Close" onClick={onClose}>×</button>
         {result ? (
           <div style={{ textAlign: 'center', padding: '20px 0' }}>
-            <div style={{ fontSize: '3rem', marginBottom: 14 }}>{result.success ? '✅' : '❌'}</div>
+            <div style={{ marginBottom: 14 }}>
+              {result.success
+                ? <span className="result-icon result-ok">&#10003;</span>
+                : <span className="result-icon result-bad">&#10005;</span>}
+            </div>
             <h3 style={{ marginBottom: 10 }}>{result.success ? 'Enquiry Sent!' : 'Something went wrong'}</h3>
             <p style={{ color: 'var(--text-2)' }}>{result.message}</p>
             {result.success && waHref && (
               <a href={waHref} target="_blank" rel="noopener noreferrer" className="btn btn-whatsapp" style={{ marginTop: 16 }}>
-                💬 Also Contact via WhatsApp
+                Also Contact via WhatsApp
               </a>
             )}
             <div><button className="btn btn-primary" style={{ marginTop: 20 }} onClick={onClose}>Close</button></div>
@@ -91,7 +96,7 @@ export default function EnquiryModal({ open, room, onClose }) {
               </div>
               <div className="modal-actions">
                 <button type="submit" className="btn btn-primary btn-full" disabled={sending}>
-                  <span className="btn-icon">✉</span> {sending ? 'Sending…' : 'Send Enquiry'}
+                  <span className="btn-icon"><Icon name="mail" size={15} color="#fff" /></span> {sending ? 'Sending…' : 'Send Enquiry'}
                 </button>
               </div>
             </form>
