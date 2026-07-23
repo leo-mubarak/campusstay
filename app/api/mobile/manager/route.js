@@ -24,7 +24,7 @@ const fail = (message, status = 400) =>
 // Notify watchlist watchers that a room just became Fully Booked.
 async function notifyWatchlist(roomId, hostel, ident) {
   const rows = await q('SELECT session_token FROM watchlist WHERE room_id = $1', [roomId]);
-  const msg = `⚠ ${hostel} — ${ident} is now Fully Booked.`;
+  const msg = `Alert: ${hostel} — ${ident} is now Fully Booked.`;
   for (const { session_token } of rows) {
     const dup = await q1(
       `SELECT id FROM watchlist_notifications
