@@ -21,8 +21,31 @@ export default async function BrowsePage({ searchParams }) {
   const priceMode = sp.price_mode === 'semester' ? 'semester' : 'annual';
   const sort = sp.sort || 'newest';
 
-  if (!VALID_TYPES.includes(roomType)) roomType = '';
-  if (!VALID_GENDERS.includes(genderSpec)) genderSpec = '';
+  // ---- Filter dropdown options (room types & genders) ----
+  // We merge two sources and remove duplicates:
+  //   1. The full set of standard options (VALID_TYPES / VALID_GENDERS) —
+  //      the same lists the room form enforces, so every standard choice
+  //      is always shown even if no listing uses it yet.
+  //   2. Any DISTINCT values found in the rooms table — so if a new type
+  //      or gender is ever added to the database in future, it appears in
+  //      the dropdown automatically without a code change.
+  const roomTypeRows = await q('SELECT DISTINCT room_type FROM rooms');
+  const roomTypes = [...new Set([
+    ...VALID_TYPES,
+    ...roomTypeRows.map(r => r.room_type).filter(Boolean),
+  ])];
+
+  const genderRows = await q('SELECT DISTINCT gender_spec FROM rooms');
+  const genders = [...new Set([
+    ...VALID_GENDERS,
+    ...genderRows.map(r => r.gender_spec).filter(Boolean),
+  ])];
+
+  // Only accept filter values that are real options (standard or from the
+  // database). Anything else is treated as "no filter". Queries below use
+  // parameterized SQL, so these values are always handled safely.
+  if (!roomTypes.includes(roomType)) roomType = '';
+  if (!genders.includes(genderSpec)) genderSpec = '';
 
   let sql = `${ROOM_SELECT} WHERE 1=1`;
   const params = [];
@@ -49,18 +72,6 @@ export default async function BrowsePage({ searchParams }) {
   const maxDbPrice = Number((await q1('SELECT MAX(annual_price) AS m FROM rooms'))?.m || 10000);
   const universities = await q('SELECT * FROM universities ORDER BY name');
 
-  // Room types & genders for the filter dropdowns: pulled from whatever is
-  // actually in use in the rooms table (dynamic), falling back to the full
-  // set of valid options if the table is empty (e.g. brand new site).
-  const roomTypeRows = await q('SELECT DISTINCT room_type FROM rooms ORDER BY room_type');
-  const roomTypes = roomTypeRows.length
-    ? roomTypeRows.map(r => r.room_type)
-    : VALID_TYPES;
-
-  const genderRows = await q('SELECT DISTINCT gender_spec FROM rooms ORDER BY gender_spec');
-  const genders = genderRows.length
-    ? genderRows.map(r => r.gender_spec)
-    : VALID_GENDERS;
   const token = await getWatchlistToken();
   const watchlistIds = token
     ? (await q('SELECT room_id FROM watchlist WHERE session_token = $1', [token])).map(r => r.room_id)
