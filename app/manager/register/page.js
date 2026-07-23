@@ -14,7 +14,7 @@ export default async function ManagerRegisterPage({ searchParams }) {
     <div className="auth-page" style={{ alignItems: 'flex-start', padding: '40px 20px' }}>
       <div className="auth-card" style={{ maxWidth: 500 }}>
         <div className="auth-logo">
-          <div style={{ fontSize: '2.5rem', marginBottom: 8 }}>🏠</div>
+          <img src="/logo.png" alt="CampusStay logo" style={{ width: 60, height: 60, marginBottom: 8 }} />
           <h2>Create Manager Account</h2>
           <p>List your hostel and start receiving student enquiries</p>
         </div>
