@@ -3,14 +3,15 @@ import Link from 'next/link';
 import { q, q1, ROOM_SELECT } from '@/lib/db';
 import { getManager, getWatchlistToken } from '@/lib/auth';
 import RoomGrid from '@/components/RoomGrid';
+import Icon from '@/components/Icon';
 
 export const dynamic = 'force-dynamic';
 
 const HOW = [
-  ['🔍', 'Search', 'Filter by university, room type, gender, price & distance.'],
-  ['👁', 'Browse', 'View photos, videos and full details of each listing.'],
-  ['💬', 'Enquire', 'Message the manager directly — or WhatsApp them instantly.'],
-  ['🏠', 'Move In', 'Confirm your room and settle in on your terms.'],
+  ['search', 'Search', 'Filter by university, room type, gender, price & distance.'],
+  ['eye', 'Browse', 'View photos, videos and full details of each listing.'],
+  ['chat', 'Enquire', 'Message the manager directly — or WhatsApp them instantly.'],
+  ['home', 'Move In', 'Confirm your room and settle in on your terms.'],
 ];
 
 export default async function HomePage() {
@@ -33,13 +34,13 @@ export default async function HomePage() {
         <div className="hero-bg-pattern"></div>
         <div className="container">
           <div className="hero-content">
-            <div className="hero-eyebrow">🎓 Ghana&apos;s #1 Student Housing Platform</div>
+            <div className="hero-eyebrow">Ghana&apos;s #1 Student Housing Platform</div>
             <h1>Find Your Perfect <span className="hero-highlight">Campus Room</span></h1>
             <p>Browse verified hostel listings near your university. Filter by price, room type, gender, and distance — all in one place.</p>
 
             <form action="/browse" method="GET" className="hero-search">
               <div className="hs-field">
-                <span className="hs-icon">🎓</span>
+                <span className="hs-icon"><Icon name="school" size={18} /></span>
                 <select name="university_id" defaultValue="">
                   <option value="">All universities</option>
                   {universities.map(u => (
@@ -48,7 +49,7 @@ export default async function HomePage() {
                 </select>
               </div>
               <div className="hs-field">
-                <span className="hs-icon">📦</span>
+                <span className="hs-icon"><Icon name="box" size={18} /></span>
                 <select name="room_type" defaultValue="">
                   <option value="">All room types</option>
                   <option>Single</option><option>Two-in-one</option>
@@ -56,7 +57,7 @@ export default async function HomePage() {
                 </select>
               </div>
               <div className="hs-field">
-                <span className="hs-icon">💰</span>
+                <span className="hs-icon"><Icon name="cash" size={18} /></span>
                 <input type="number" name="max_price" placeholder="Max price (GHS)" min="0" step="100" />
               </div>
               <button type="submit" className="btn btn-primary hs-btn">Search Rooms</button>
@@ -80,11 +81,11 @@ export default async function HomePage() {
               <h2>Featured Rooms</h2>
               <p>Recently listed and available now</p>
             </div>
-            <Link href="/browse" className="btn btn-outline">View all rooms →</Link>
+            <Link href="/browse" className="btn btn-outline">View all rooms</Link>
           </div>
           {featured.length === 0 ? (
             <div className="empty-state">
-              <div className="empty-icon">🏠</div>
+              <div className="empty-icon"><Icon name="home" size={40} color="var(--primary)" /></div>
               <h3>No rooms listed yet</h3>
               <p>Be the first hostel manager to list a room.</p>
             </div>
@@ -101,7 +102,7 @@ export default async function HomePage() {
           <div className="how-grid">
             {HOW.map(([icon, title, desc]) => (
               <div className="how-card" key={title}>
-                <div className="how-icon">{icon}</div>
+                <div className="how-icon"><Icon name={icon} size={24} /></div>
                 <h3>{title}</h3>
                 <p>{desc}</p>
               </div>
@@ -119,7 +120,7 @@ export default async function HomePage() {
                 <p>List your rooms for free and start receiving student enquiries today.</p>
               </div>
               <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
-                <Link href="/manager/register" className="btn btn-accent btn-lg">Create Free Account →</Link>
+                <Link href="/manager/register" className="btn btn-accent btn-lg">Create Free Account</Link>
                 <Link href="/manager/login" className="btn btn-outline btn-lg"
                   style={{ background: 'rgba(255,255,255,.15)', borderColor: 'rgba(255,255,255,.4)', color: '#fff' }}>
                   Login
