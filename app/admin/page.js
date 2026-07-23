@@ -1,3 +1,4 @@
+import Icon from '@/components/Icon';
 // Admin panel — recreated from the README description (original admin/dashboard.php
 // was not included in the upload). Tabs: managers, universities, rooms, reviews.
 import Link from 'next/link';
@@ -40,7 +41,7 @@ export default async function AdminPage({ searchParams }) {
 
   const TabLink = ({ id, icon, label, count }) => (
     <Link href={`/admin?tab=${id}`} className={tab === id ? 'active' : ''}>
-      <span>{icon}</span> {label} <span className="nav-badge" style={{ background: 'var(--text-3)' }}>{count}</span>
+      <span><Icon name={icon} size={14} /></span> {label} <span className="nav-badge" style={{ background: 'var(--text-3)' }}>{count}</span>
     </Link>
   );
 
@@ -51,15 +52,15 @@ export default async function AdminPage({ searchParams }) {
         <div className="dashboard-layout">
           <aside className="sidebar">
             <div className="sidebar-profile">
-              <div className="sidebar-avatar">🔐</div>
+              <div className="sidebar-avatar"><Icon name="gear" size={22} color="#fff" /></div>
               <h4>Administrator</h4>
               <p>Platform Admin</p>
             </div>
             <nav className="sidebar-nav">
-              <TabLink id="managers" icon="👤" label="Managers" count={counts.managers} />
-              <TabLink id="universities" icon="🎓" label="Universities" count={counts.universities} />
-              <TabLink id="rooms" icon="🏠" label="Rooms" count={counts.rooms} />
-              <TabLink id="reviews" icon="⭐" label="Reviews" count={counts.reviews} />
+              <TabLink id="managers" icon="user" label="Managers" count={counts.managers} />
+              <TabLink id="universities" icon="school" label="Universities" count={counts.universities} />
+              <TabLink id="rooms" icon="home" label="Rooms" count={counts.rooms} />
+              <TabLink id="reviews" icon="star" label="Reviews" count={counts.reviews} />
             </nav>
             <div className="sidebar-logout">
               <a href="/api/admin?action=logout" className="btn btn-outline btn-full btn-sm">Logout</a>
@@ -221,10 +222,10 @@ export default async function AdminPage({ searchParams }) {
                       {rv.comment && <p className="enquiry-message" style={{ whiteSpace: 'pre-line' }}>{rv.comment}</p>}
                       <div className="enquiry-actions">
                         {rv.status !== 'approved' && (
-                          <a href={`/api/admin?action=approve_review&id=${rv.id}`} className="btn btn-outline btn-sm">✓ Approve</a>
+                          <a href={`/api/admin?action=approve_review&id=${rv.id}`} className="btn btn-outline btn-sm">Approve</a>
                         )}
                         {rv.status !== 'rejected' && (
-                          <a href={`/api/admin?action=reject_review&id=${rv.id}`} className="btn btn-outline btn-sm">✕ Reject</a>
+                          <a href={`/api/admin?action=reject_review&id=${rv.id}`} className="btn btn-outline btn-sm">Reject</a>
                         )}
                         <ConfirmLink href={`/api/admin?action=delete_review&id=${rv.id}`}
                           confirm="Delete this review permanently?" className="btn btn-danger btn-sm">Delete</ConfirmLink>
