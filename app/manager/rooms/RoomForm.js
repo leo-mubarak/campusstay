@@ -1,4 +1,5 @@
 'use client';
+import Icon from '@/components/Icon';
 // Add/edit room form — ported from room-form.php (amenity chips, upload zone, media delete)
 import { useRef, useState } from 'react';
 import Link from 'next/link';
@@ -6,7 +7,7 @@ import { VALID_TYPES, VALID_GENDERS } from '@/lib/utils';
 
 const QUICK_AMENITIES = ['WiFi','Water','Electricity','Fan','AC','Wardrobe','Kitchen','Laundry','Security','CCTV','Balcony','Gym','Study Room','Fridge','Parking'];
 
-export default function RoomForm({ room, mediaItems = [], universities, uploadsEnabled }) {
+export default function RoomForm({ room, mediaItems = [], universities, accountHostelName = '', uploadsEnabled }) {
   const [amenities, setAmenities] = useState(room?.amenities || '');
   const [media, setMedia] = useState(mediaItems);
   const [previews, setPreviews] = useState([]);
@@ -60,8 +61,17 @@ export default function RoomForm({ room, mediaItems = [], universities, uploadsE
         <div className="form-grid-2">
           <div className="form-group">
             <label>Hostel / Property Name <span className="req">*</span></label>
+            {/* Auto-filled from the manager's account so it never has to be
+                retyped. Read-only when the account has a hostel name; older
+                accounts without one can still type it. */}
             <input type="text" name="hostel_name" className="form-control" required
-              defaultValue={room?.hostel_name || ''} placeholder="e.g. Sunrise Hostel" />
+              defaultValue={room?.hostel_name || accountHostelName}
+              readOnly={!!accountHostelName}
+              style={accountHostelName ? { background: 'var(--bg-2)', cursor: 'not-allowed' } : undefined}
+              placeholder="e.g. Sunrise Hostel" />
+            {accountHostelName ? (
+              <div className="form-hint">Auto-filled from your account. To change it, go to Dashboard → Profile.</div>
+            ) : null}
           </div>
           <div className="form-group">
             <label>Room Number / Identifier <span className="req">*</span></label>
@@ -189,7 +199,7 @@ export default function RoomForm({ room, mediaItems = [], universities, uploadsE
           onDragLeave={() => setDragOver(false)}
           onDrop={onDrop}
         >
-          <div className="upload-icon">📷</div>
+          <div className="upload-icon"><Icon name="camera" size={30} color="var(--primary)" /></div>
           <p>Click or drag &amp; drop photos / video tour</p>
           <small>JPG, PNG, WEBP, MP4, WEBM — Max 10MB each</small>
         </div>
@@ -203,7 +213,7 @@ export default function RoomForm({ room, mediaItems = [], universities, uploadsE
                 <div className="gallery-item" key={i}>
                   {p.type === 'image'
                     ? <img src={p.src} alt="preview" />
-                    : <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%', background: 'var(--bg-2)', fontSize: '2rem' }}>🎬</div>}
+                    : <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%', background: 'var(--bg-2)', fontSize: '2rem' }}><Icon name="video" size={26} color="var(--text-3)" /></div>}
                 </div>
               ))}
             </div>
@@ -213,7 +223,7 @@ export default function RoomForm({ room, mediaItems = [], universities, uploadsE
 
       <div className="form-actions">
         <button type="submit" className="btn btn-primary btn-lg">
-          {room ? '💾 Update Listing' : '🚀 Publish Listing'}
+          {room ? 'Update Listing' : 'Publish Listing'}
         </button>
         <Link href="/manager/dashboard" className="btn btn-outline btn-lg">Cancel</Link>
       </div>
