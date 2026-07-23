@@ -39,6 +39,7 @@ export async function POST(request) {
           email: mgr.email,
           phone: mgr.phone,
           whatsapp: mgr.whatsapp,
+          hostel_name: mgr.hostel_name, // used to auto-fill the room form
           token,
         },
       });
@@ -78,7 +79,15 @@ export async function POST(request) {
       );
 
       const token = await makeToken({ id: row.id, name: fullName, email });
-      return ok({ manager: { id: row.id, name: fullName, email, token } });
+      return ok({
+        manager: {
+          id: row.id,
+          name: fullName,
+          email,
+          hostel_name: String(body.hostel_name || '').trim(),
+          token,
+        },
+      });
     }
 
     // ---- ADMIN LOGIN ----
@@ -102,10 +111,29 @@ export async function POST(request) {
       if (fullName.length < 2) return fail('Full name is required.');
       const whatsapp = body.whatsapp ? formatWhatsApp(body.whatsapp) : '';
       await q(
-        'UPDATE managers SET full_name=$1, phone=$2, whatsapp=$3, updated_at=NOW() WHERE id=$4',
-        [fullName, String(body.phone || '').trim(), whatsapp, Number(session.id)]
+        `UPDATE managers SET full_name=$1, phone=$2, whatsapp=$3, hostel_name=$4,
+         updated_at=NOW() WHERE id=$5`,
+        [
+          fullName,
+          String(body.phone || '').trim(),
+          whatsapp,
+          String(body.hostel_name || '').trim(),
+          Number(session.id),
+        ]
       );
       return ok({ message: 'Profile updated successfully.' });
+    }
+
+    // ---- DELETE ACCOUNT (manager deletes their own account) ----
+    // Requires the current password as confirmation. Deleting the manager
+    // row cascades: their rooms, media, enquiries and reviews go too.
+    if (action === 'delete_account') {
+      const mgr = await q1('SELECT password FROM managers WHERE id = $1', [Number(session.id)]);
+      if (!mgr || !verify(String(body.password || ''), mgr.password)) {
+        return fail('Password is incorrect.');
+      }
+      await q('DELETE FROM managers WHERE id = $1', [Number(session.id)]);
+      return ok({ message: 'Account deleted.' });
     }
 
     // ---- CHANGE PASSWORD ----
