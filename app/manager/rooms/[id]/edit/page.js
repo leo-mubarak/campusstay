@@ -19,6 +19,9 @@ export default async function EditRoomPage({ params, searchParams }) {
 
   const mediaItems = await q('SELECT * FROM media WHERE room_id = $1 ORDER BY sort_order ASC', [room.id]);
   const universities = await q('SELECT * FROM universities ORDER BY name');
+  // The hostel name saved on the manager's account (used to auto-fill the form).
+  const me = await q1('SELECT hostel_name FROM managers WHERE id = $1', [manager.id]);
+  const accountHostelName = (me && me.hostel_name) || '';
 
   return (
     <div className="section">
@@ -31,6 +34,7 @@ export default async function EditRoomPage({ params, searchParams }) {
           room={JSON.parse(JSON.stringify(room))}
           mediaItems={JSON.parse(JSON.stringify(mediaItems))}
           universities={universities}
+          accountHostelName={accountHostelName}
           uploadsEnabled={!!process.env.BLOB_READ_WRITE_TOKEN}
         />
       </div>
