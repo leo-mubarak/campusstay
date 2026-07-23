@@ -26,7 +26,7 @@ export default function FilterForm({ universities, values, maxDbPrice }) {
       </div>
 
       <div className="filter-section">
-        <h4>🎓 University</h4>
+        <h4>University</h4>
         <label className="filter-option">
           <input type="radio" name="university_id" value="0" defaultChecked={!values.universityId} onChange={submit} />
           <span>All universities</span>
@@ -40,7 +40,7 @@ export default function FilterForm({ universities, values, maxDbPrice }) {
       </div>
 
       <div className="filter-section">
-        <h4>📦 Room Type</h4>
+        <h4>Room Type</h4>
         {VALID_TYPES.map(t => (
           <label className="filter-option" key={t}>
             <input type="radio" name="room_type" value={t} defaultChecked={values.roomType === t} onChange={submit} />
@@ -54,7 +54,7 @@ export default function FilterForm({ universities, values, maxDbPrice }) {
       </div>
 
       <div className="filter-section">
-        <h4>👤 Gender</h4>
+        <h4>Gender</h4>
         {VALID_GENDERS.map(g => (
           <label className="filter-option" key={g}>
             <input type="radio" name="gender_spec" value={g} defaultChecked={values.genderSpec === g} onChange={submit} />
@@ -68,7 +68,7 @@ export default function FilterForm({ universities, values, maxDbPrice }) {
       </div>
 
       <div className="filter-section">
-        <h4>💰 Max Annual Price</h4>
+        <h4>Max Annual Price</h4>
         <div className="range-wrap">
           <input type="range" name="max_price" min="0" max={maxDbPrice} step="100"
             value={price} onChange={e => setPrice(Number(e.target.value))} />
@@ -77,7 +77,7 @@ export default function FilterForm({ universities, values, maxDbPrice }) {
       </div>
 
       <div className="filter-section">
-        <h4>📍 Max Distance (km)</h4>
+        <h4>Max Distance (km)</h4>
         <div className="range-wrap">
           <input type="range" name="max_dist" min="0" max="5" step="0.1"
             value={dist} onChange={e => setDist(Number(e.target.value))} />
@@ -86,7 +86,7 @@ export default function FilterForm({ universities, values, maxDbPrice }) {
       </div>
 
       <div className="filter-section">
-        <h4>✅ Availability</h4>
+        <h4>Availability</h4>
         <label className="filter-option">
           <input type="checkbox" name="avail_only" value="1" defaultChecked={values.availOnly} onChange={submit} />
           <span>Available rooms only</span>
