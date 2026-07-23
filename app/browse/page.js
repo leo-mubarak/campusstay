@@ -1,3 +1,4 @@
+import Icon from '@/components/Icon';
 // Browse page with filters — ported from browse.php
 import Link from 'next/link';
 import { q, q1, ROOM_SELECT } from '@/lib/db';
@@ -75,7 +76,7 @@ export default async function BrowsePage({ searchParams }) {
           <main>
             {rooms.length === 0 ? (
               <div className="empty-state">
-                <div className="empty-icon">🔍</div>
+                <div className="empty-icon"><Icon name="search" size={40} color="var(--primary)" /></div>
                 <h3>No rooms found</h3>
                 <p>Try adjusting your filters to see more results.</p>
                 <Link href="/browse" className="btn btn-outline" style={{ marginTop: 16 }}>Clear filters</Link>
