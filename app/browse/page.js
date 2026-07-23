@@ -48,6 +48,19 @@ export default async function BrowsePage({ searchParams }) {
   const rooms = await q(sql, params);
   const maxDbPrice = Number((await q1('SELECT MAX(annual_price) AS m FROM rooms'))?.m || 10000);
   const universities = await q('SELECT * FROM universities ORDER BY name');
+
+  // Room types & genders for the filter dropdowns: pulled from whatever is
+  // actually in use in the rooms table (dynamic), falling back to the full
+  // set of valid options if the table is empty (e.g. brand new site).
+  const roomTypeRows = await q('SELECT DISTINCT room_type FROM rooms ORDER BY room_type');
+  const roomTypes = roomTypeRows.length
+    ? roomTypeRows.map(r => r.room_type)
+    : VALID_TYPES;
+
+  const genderRows = await q('SELECT DISTINCT gender_spec FROM rooms ORDER BY gender_spec');
+  const genders = genderRows.length
+    ? genderRows.map(r => r.gender_spec)
+    : VALID_GENDERS;
   const token = await getWatchlistToken();
   const watchlistIds = token
     ? (await q('SELECT room_id FROM watchlist WHERE session_token = $1', [token])).map(r => r.room_id)
@@ -68,6 +81,8 @@ export default async function BrowsePage({ searchParams }) {
             <div className="card card-body">
               <FilterForm
                 universities={universities}
+                roomTypes={roomTypes}
+                genders={genders}
                 values={{ roomType, genderSpec, universityId, maxPrice, maxDist, availOnly, priceMode, sort }}
                 maxDbPrice={maxDbPrice + 500}
               />
