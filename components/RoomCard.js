@@ -2,6 +2,7 @@
 // Room card — ported from views/components/room_card.php
 import Link from 'next/link';
 import Stars from './Stars';
+import Icon from './Icon';
 import WatchlistButton from './WatchlistButton';
 import { amenityList, genderBadge, n0, n1 } from '@/lib/utils';
 
@@ -14,11 +15,14 @@ export default function RoomCard({ room, inWatchlist, priceMode = 'annual', onEn
   return (
     <div className={`card room-card ${faded && !available ? 'room-card-faded' : ''}`}>
       <div className="room-card-img">
-        {room.thumb ? (
-          <img src={room.thumb} alt={room.hostel_name} loading="lazy" />
-        ) : (
-          <div className="room-card-placeholder">🏠</div>
-        )}
+        {/* The image itself is clickable and opens the room page (full gallery) */}
+        <Link href={`/rooms/${room.id}`} className="room-card-img-link" aria-label={`View ${room.hostel_name}`}>
+          {room.thumb ? (
+            <img src={room.thumb} alt={room.hostel_name} loading="lazy" />
+          ) : (
+            <div className="room-card-placeholder"><Icon name="home" size={44} color="var(--primary)" /></div>
+          )}
+        </Link>
         <div className="room-card-overlay-top">
           <span className={`badge ${g.cls}`}>{g.icon} {room.gender_spec}</span>
           <span className={`badge ${available ? 'badge-avail' : 'badge-full'}`}>{room.availability}</span>
@@ -27,13 +31,13 @@ export default function RoomCard({ room, inWatchlist, priceMode = 'annual', onEn
       </div>
       <div className="room-card-body">
         {room.university_name && (
-          <div className="room-uni-tag">🎓 {room.uni_short || room.university_name}</div>
+          <div className="room-uni-tag"><Icon name="school" size={12} /> {room.uni_short || room.university_name}</div>
         )}
         <div className="room-card-title">{room.hostel_name}</div>
         <div className="room-card-sub">{room.room_identifier} · {room.manager_name}</div>
         <div className="room-card-meta">
-          <span>📦 {room.room_type}</span>
-          <span>📍 {n1(room.distance_km)}km · {room.walk_minutes}min</span>
+          <span><Icon name="box" size={12} /> {room.room_type}</span>
+          <span><Icon name="pin" size={12} /> {n1(room.distance_km)}km · {room.walk_minutes}min</span>
         </div>
         {avg > 0 && (
           <div className="room-rating">
