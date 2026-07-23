@@ -85,8 +85,11 @@ export async function POST(request) {
       return go(origin, '/manager/dashboard', { tab: 'profile', error: 'Full name is required.' });
     if (whatsapp) whatsapp = formatWhatsApp(whatsapp);
 
-    await q('UPDATE managers SET full_name=$1, phone=$2, whatsapp=$3, updated_at=NOW() WHERE id=$4',
-      [fullName, val('phone'), whatsapp, manager.id]);
+    await q(
+      `UPDATE managers SET full_name=$1, phone=$2, whatsapp=$3, hostel_name=$4,
+       updated_at=NOW() WHERE id=$5`,
+      [fullName, val('phone'), whatsapp, val('hostel_name'), manager.id]
+    );
 
     const token = await signSession({ id: manager.id, name: fullName, email: manager.email });
     const res = go(origin, '/manager/dashboard', { tab: 'profile', success: 'Profile updated successfully.' });
@@ -110,6 +113,27 @@ export async function POST(request) {
 
     await q('UPDATE managers SET password=$1, updated_at=NOW() WHERE id=$2', [bcrypt.hashSync(newPw, 10), manager.id]);
     return dash({ success: 'Password changed successfully.' });
+  }
+
+  // ── DELETE ACCOUNT (manager deletes their own account) ──
+  // Requires the current password. Deleting the manager row cascades:
+  // their rooms, media, enquiries and reviews are removed too.
+  if (action === 'delete_account') {
+    const manager = await getManager();
+    if (!manager) return go(origin, '/manager/login');
+    const password = String(fd.get('password') || '');
+
+    const mgr = await q1('SELECT password FROM managers WHERE id = $1', [manager.id]);
+    if (!mgr || !verify(password, mgr.password)) {
+      return go(origin, '/manager/dashboard', { tab: 'profile', error: 'Password is incorrect.' });
+    }
+
+    await q('DELETE FROM managers WHERE id = $1', [manager.id]);
+
+    // Log them out (clear the session cookie) and send them home.
+    const res = go(origin, '/', { success: 'Your account has been deleted.' });
+    res.cookies.set('cs_manager', '', { ...cookieOpts, maxAge: 0 });
+    return res;
   }
 
   return go(origin, '/');
