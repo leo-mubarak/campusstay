@@ -1,3 +1,4 @@
+import Icon from '@/components/Icon';
 // Watchlist page — ported from watchlist.php
 import Link from 'next/link';
 import { q } from '@/lib/db';
@@ -38,7 +39,7 @@ export default async function WatchlistPage() {
       <div className="container">
         {notifications.length > 0 && (
           <div className="notif-banner">
-            <div className="notif-banner-icon">🔔</div>
+            <div className="notif-banner-icon"><Icon name="bell" size={22} color="var(--accent)" /></div>
             <div>
               <strong>Watchlist Alerts</strong>
               <div className="notif-list">
@@ -55,7 +56,7 @@ export default async function WatchlistPage() {
 
         <div className="section-head">
           <div>
-            <h2>❤ My Watchlist</h2>
+            <h2><Icon name="heart" size={22} color="var(--danger)" /> My Watchlist</h2>
             <p>{rooms.length} saved room{rooms.length !== 1 ? 's' : ''}</p>
           </div>
           {rooms.length > 0 && (
@@ -67,7 +68,7 @@ export default async function WatchlistPage() {
 
         {rooms.length === 0 ? (
           <div className="empty-state" style={{ padding: '80px 20px' }}>
-            <div className="empty-icon">🤍</div>
+            <div className="empty-icon"><Icon name="heart" size={40} color="var(--text-3)" /></div>
             <h3>Your watchlist is empty</h3>
             <p>Browse rooms and click the heart icon to save them here for later.</p>
             <Link href="/browse" className="btn btn-primary" style={{ marginTop: 20 }}>Browse Rooms</Link>
@@ -76,7 +77,7 @@ export default async function WatchlistPage() {
           <>
             {bookedCount > 0 && (
               <div className="alert alert-warning" style={{ marginBottom: 20 }}>
-                ⚠ <strong>{bookedCount} room{bookedCount > 1 ? 's' : ''}</strong> in your watchlist{' '}
+                <strong>{bookedCount} room{bookedCount > 1 ? 's' : ''}</strong> in your watchlist{' '}
                 {bookedCount > 1 ? 'are' : 'is'} now fully booked. Consider looking for alternatives.
               </div>
             )}
