@@ -14,7 +14,7 @@ export default async function ManagerLoginPage({ searchParams }) {
     <div className="auth-page">
       <div className="auth-card">
         <div className="auth-logo">
-          <div style={{ fontSize: '2.5rem', marginBottom: 8 }}>🏠</div>
+          <img src="/logo.png" alt="CampusStay logo" style={{ width: 60, height: 60, marginBottom: 8 }} />
           <h2>Manager Login</h2>
           <p>Access your hostel management dashboard</p>
         </div>
