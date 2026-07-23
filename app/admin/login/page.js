@@ -14,7 +14,7 @@ export default async function AdminLoginPage({ searchParams }) {
     <div className="auth-page">
       <div className="auth-card">
         <div className="auth-logo">
-          <div style={{ fontSize: '2.5rem', marginBottom: 8 }}>🔐</div>
+          <img src="/logo.png" alt="CampusStay logo" style={{ width: 60, height: 60, marginBottom: 8 }} />
           <h2>Admin Login</h2>
           <p>CampusStay Administration Panel</p>
         </div>
