@@ -423,3 +423,137 @@ tbody tr:hover td { background:var(--bg); }
   .detail-grid { grid-template-columns:1fr; }
   .footer-links { flex-direction:column; gap:20px; }
 }
+
+/* ============================================================
+   Added styles: logo, gallery carousel + lightbox, result icons
+   ============================================================ */
+
+/* --- Brand logo image (navbar + footer) --- */
+.brand-logo-img {
+  width: 26px;
+  height: 26px;
+  object-fit: contain;
+  vertical-align: -0.35em;
+  margin-right: 6px;
+}
+
+/* --- Room card: the image link fills the image area --- */
+.room-card-img-link {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* --- Gallery carousel arrows --- */
+.gallery-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(0, 0, 0, 0.4);
+  color: #fff;
+  font-size: 1.5rem;
+  line-height: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s;
+  z-index: 2;
+}
+.gallery-arrow:hover { background: rgba(0, 0, 0, 0.65); }
+.gallery-arrow-left { left: 12px; }
+.gallery-arrow-right { right: 12px; }
+
+/* --- Gallery dot indicators --- */
+.gallery-dots {
+  position: absolute;
+  bottom: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 7px;
+  z-index: 2;
+}
+.gallery-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  border: none;
+  padding: 0;
+  background: rgba(255, 255, 255, 0.55);
+  cursor: pointer;
+  transition: background 0.15s, transform 0.15s;
+}
+.gallery-dot.active {
+  background: #fff;
+  transform: scale(1.2);
+}
+
+/* --- Full-screen lightbox --- */
+.gallery-lightbox {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.92);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  padding: 20px;
+}
+.gallery-lightbox img {
+  max-width: 92vw;
+  max-height: 88vh;
+  border-radius: 8px;
+  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.5);
+}
+.lightbox-close {
+  position: absolute;
+  top: 18px;
+  right: 20px;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(255, 255, 255, 0.15);
+  color: #fff;
+  font-size: 1.2rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.lightbox-close:hover { background: rgba(255, 255, 255, 0.3); }
+.lightbox-counter {
+  position: absolute;
+  top: 26px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(255, 255, 255, 0.15);
+  color: #fff;
+  border-radius: 999px;
+  padding: 5px 14px;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+.lightbox-arrow { background: rgba(255, 255, 255, 0.15); }
+.lightbox-arrow:hover { background: rgba(255, 255, 255, 0.3); }
+.lightbox-dots { bottom: 26px; }
+
+/* --- Modal result icons (replaces the old emoji) --- */
+.result-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  font-size: 1.9rem;
+  color: #fff;
+}
+.result-ok { background: var(--success); }
+.result-bad { background: var(--danger); }
+.result-star { background: var(--accent); }
