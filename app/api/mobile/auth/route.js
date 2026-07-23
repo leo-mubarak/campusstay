@@ -10,9 +10,21 @@ import { q, q1 } from '@/lib/db';
 import { makeToken, readBearer } from '@/lib/mobileAuth';
 import { formatWhatsApp } from '@/lib/utils';
 
-const ok = (data) => NextResponse.json({ success: true, ...data });
+// Allow the Expo web preview (running on localhost) to call this API.
+const CORS_HEADERS = {
+  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+  'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+};
+
+export async function OPTIONS() {
+  return new Response(null, { status: 204, headers: CORS_HEADERS });
+}
+
+
+const ok = (data) => NextResponse.json({ success: true, ...data }, { headers: CORS_HEADERS });
 const fail = (message, status = 400) =>
-  NextResponse.json({ success: false, message }, { status });
+  NextResponse.json({ success: false, message }, { status, headers: CORS_HEADERS });
 
 const verify = (pw, hash) =>
   bcrypt.compareSync(pw, String(hash || '').replace(/^\$2y\$/, '$2b$'));
