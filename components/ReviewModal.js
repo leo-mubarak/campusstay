@@ -33,7 +33,11 @@ export default function ReviewModal({ open, roomId, onClose }) {
         <button className="modal-close" aria-label="Close" onClick={onClose}>×</button>
         {result ? (
           <div style={{ textAlign: 'center', padding: '20px 0' }}>
-            <div style={{ fontSize: '3rem', marginBottom: 14 }}>{result.success ? '⭐' : '❌'}</div>
+            <div style={{ marginBottom: 14 }}>
+              {result.success
+                ? <span className="result-icon result-star">&#9733;</span>
+                : <span className="result-icon result-bad">&#10005;</span>}
+            </div>
             <h3 style={{ marginBottom: 10 }}>{result.success ? 'Review Submitted!' : 'Error'}</h3>
             <p style={{ color: 'var(--text-2)' }}>{result.message}</p>
             <button className="btn btn-primary" style={{ marginTop: 20 }}
