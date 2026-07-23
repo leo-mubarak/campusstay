@@ -6,7 +6,8 @@ export default function Footer() {
     <footer className="site-footer">
       <div className="container footer-inner">
         <div className="footer-brand">
-          <span className="brand-icon">🏠</span>Campus<span className="brand-accent">Stay</span>
+          <img src="/logo.png" alt="CampusStay logo" className="brand-logo-img" />
+          Campus<span className="brand-accent">Stay</span>
           <p>The smartest way to find student accommodation near your campus.</p>
         </div>
         <div className="footer-links">
