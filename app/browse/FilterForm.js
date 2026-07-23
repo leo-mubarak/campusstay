@@ -1,9 +1,8 @@
 'use client';
 // Filter sidebar — ported from the filter form in browse.php + main.js sliders
 import { useRef, useState } from 'react';
-import { VALID_TYPES, VALID_GENDERS } from '@/lib/utils';
 
-export default function FilterForm({ universities, values, maxDbPrice }) {
+export default function FilterForm({ universities, roomTypes, genders, values, maxDbPrice }) {
   const formRef = useRef(null);
   const [price, setPrice] = useState(values.maxPrice > 0 ? values.maxPrice : maxDbPrice);
   const [dist, setDist] = useState(values.maxDist > 0 ? values.maxDist : 5);
@@ -25,46 +24,54 @@ export default function FilterForm({ universities, values, maxDbPrice }) {
         </select>
       </div>
 
+      {/* University — dropdown populated from the universities table */}
       <div className="filter-section">
         <h4>University</h4>
-        <label className="filter-option">
-          <input type="radio" name="university_id" value="0" defaultChecked={!values.universityId} onChange={submit} />
-          <span>All universities</span>
-        </label>
-        {universities.map(u => (
-          <label className="filter-option" key={u.id}>
-            <input type="radio" name="university_id" value={u.id} defaultChecked={values.universityId === u.id} onChange={submit} />
-            <span>{u.short_name} <small style={{ color: 'var(--text-3)' }}>— {u.name}</small></span>
-          </label>
-        ))}
+        <select
+          name="university_id"
+          className="form-control"
+          defaultValue={values.universityId || '0'}
+          onChange={submit}
+        >
+          <option value="0">All Universities</option>
+          {universities.map(u => (
+            <option key={u.id} value={u.id}>
+              {u.short_name} — {u.name}
+            </option>
+          ))}
+        </select>
       </div>
 
+      {/* Room Type — dropdown populated from the room types actually in use */}
       <div className="filter-section">
         <h4>Room Type</h4>
-        {VALID_TYPES.map(t => (
-          <label className="filter-option" key={t}>
-            <input type="radio" name="room_type" value={t} defaultChecked={values.roomType === t} onChange={submit} />
-            <span>{t}</span>
-          </label>
-        ))}
-        <label className="filter-option">
-          <input type="radio" name="room_type" value="" defaultChecked={values.roomType === ''} onChange={submit} />
-          <span>All types</span>
-        </label>
+        <select
+          name="room_type"
+          className="form-control"
+          defaultValue={values.roomType || ''}
+          onChange={submit}
+        >
+          <option value="">All Room Types</option>
+          {roomTypes.map(t => (
+            <option key={t} value={t}>{t}</option>
+          ))}
+        </select>
       </div>
 
+      {/* Gender — dropdown populated from the gender specs actually in use */}
       <div className="filter-section">
         <h4>Gender</h4>
-        {VALID_GENDERS.map(g => (
-          <label className="filter-option" key={g}>
-            <input type="radio" name="gender_spec" value={g} defaultChecked={values.genderSpec === g} onChange={submit} />
-            <span>{g}</span>
-          </label>
-        ))}
-        <label className="filter-option">
-          <input type="radio" name="gender_spec" value="" defaultChecked={values.genderSpec === ''} onChange={submit} />
-          <span>All</span>
-        </label>
+        <select
+          name="gender_spec"
+          className="form-control"
+          defaultValue={values.genderSpec || ''}
+          onChange={submit}
+        >
+          <option value="">All Genders</option>
+          {genders.map(g => (
+            <option key={g} value={g}>{g}</option>
+          ))}
+        </select>
       </div>
 
       <div className="filter-section">
