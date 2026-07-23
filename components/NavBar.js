@@ -1,6 +1,7 @@
 'use client';
 // Navbar — ported from views/layouts/header.php
 import Link from 'next/link';
+import Icon from './Icon';
 import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
@@ -22,16 +23,17 @@ export default function NavBar({ manager, wlCount, notifCount }) {
     <nav className="navbar">
       <div className="container nav-inner">
         <Link href="/" className="nav-brand">
-          <span className="brand-icon">🏠</span>Campus<span className="brand-accent">Stay</span>
+          <img src="/logo.png" alt="CampusStay logo" className="brand-logo-img" />
+          Campus<span className="brand-accent">Stay</span>
         </Link>
         <div className={`nav-links ${open ? 'open' : ''}`}>
           <Link href="/" className={active('/')}>Home</Link>
           <Link href="/browse" className={active('/browse')}>Browse Rooms</Link>
           <Link href="/watchlist" className={`nav-watchlist ${active('/watchlist')}`}>
-            <span>❤ Watchlist</span>
+            <span><Icon name="heart" size={13} /> Watchlist</span>
             {count > 0 && <span className="nav-badge">{count}</span>}
             {notifCount > 0 && (
-              <span className="nav-badge notif-badge" title={`${notifCount} new notification${notifCount > 1 ? 's' : ''}`}>🔔</span>
+              <span className="nav-badge notif-badge" title={`${notifCount} new notification${notifCount > 1 ? 's' : ''}`}><Icon name="bell" size={12} color="#fff" /></span>
             )}
           </Link>
           {manager ? (
