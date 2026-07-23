@@ -1,3 +1,5 @@
+import Icon from '@/components/Icon';
+import DeleteAccountForm from '@/components/DeleteAccountForm';
 // Manager dashboard — ported from dashboard.php (overview / listings / enquiries / reviews / profile)
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
@@ -86,15 +88,15 @@ export default async function DashboardPage({ searchParams }) {
               <p>Hostel Manager</p>
             </div>
             <nav className="sidebar-nav">
-              <Link href="/manager/dashboard?tab=overview" className={tab === 'overview' ? 'active' : ''}><span>📊</span> Overview</Link>
-              <Link href="/manager/dashboard?tab=listings" className={tab === 'listings' ? 'active' : ''}><span>🏠</span> My Listings</Link>
-              <Link href="/manager/rooms/new"><span>➕</span> Add New Room</Link>
+              <Link href="/manager/dashboard?tab=overview" className={tab === 'overview' ? 'active' : ''}><span><Icon name="chart" size={14} /></span> Overview</Link>
+              <Link href="/manager/dashboard?tab=listings" className={tab === 'listings' ? 'active' : ''}><span><Icon name="home" size={14} /></span> My Listings</Link>
+              <Link href="/manager/rooms/new"><span>+</span> Add New Room</Link>
               <Link href="/manager/dashboard?tab=enquiries" className={tab === 'enquiries' ? 'active' : ''}>
-                <span>💬</span> Enquiries
+                <span><Icon name="chat" size={14} /></span> Enquiries
                 {stats.unread > 0 && <span className="nav-badge">{stats.unread}</span>}
               </Link>
-              <Link href="/manager/dashboard?tab=reviews" className={tab === 'reviews' ? 'active' : ''}><span>⭐</span> Reviews</Link>
-              <Link href="/manager/dashboard?tab=profile" className={tab === 'profile' ? 'active' : ''}><span>⚙</span> Profile</Link>
+              <Link href="/manager/dashboard?tab=reviews" className={tab === 'reviews' ? 'active' : ''}><span><Icon name="star" size={14} /></span> Reviews</Link>
+              <Link href="/manager/dashboard?tab=profile" className={tab === 'profile' ? 'active' : ''}><span><Icon name="gear" size={14} /></span> Profile</Link>
             </nav>
             <div className="sidebar-logout">
               <a href="/api/auth?action=logout" className="btn btn-outline btn-full btn-sm">Logout</a>
@@ -109,16 +111,16 @@ export default async function DashboardPage({ searchParams }) {
                   <Link href="/manager/rooms/new" className="btn btn-primary">+ Add New Room</Link>
                 </div>
                 <div className="stats-row">
-                  <div className="stat-card"><div className="stat-label">Total Listings <span>🏠</span></div><div className="stat-value">{stats.total}</div></div>
-                  <div className="stat-card"><div className="stat-label">Available <span>✅</span></div><div className="stat-value" style={{ color: 'var(--success)' }}>{stats.avail}</div></div>
-                  <div className="stat-card"><div className="stat-label">Fully Booked <span>🔴</span></div><div className="stat-value" style={{ color: 'var(--danger)' }}>{stats.full}</div></div>
-                  <div className="stat-card"><div className="stat-label">Unread Enquiries <span>💬</span></div><div className="stat-value" style={{ color: 'var(--accent)' }}>{stats.unread}</div></div>
-                  <div className="stat-card"><div className="stat-label">Reviews <span>⭐</span></div><div className="stat-value">{stats.reviews}</div></div>
+                  <div className="stat-card"><div className="stat-label">Total Listings <span><Icon name="home" size={14} /></span></div><div className="stat-value">{stats.total}</div></div>
+                  <div className="stat-card"><div className="stat-label">Available <span><Icon name="check" size={14} /></span></div><div className="stat-value" style={{ color: 'var(--success)' }}>{stats.avail}</div></div>
+                  <div className="stat-card"><div className="stat-label">Fully Booked <span><Icon name="close" size={14} /></span></div><div className="stat-value" style={{ color: 'var(--danger)' }}>{stats.full}</div></div>
+                  <div className="stat-card"><div className="stat-label">Unread Enquiries <span><Icon name="chat" size={14} /></span></div><div className="stat-value" style={{ color: 'var(--accent)' }}>{stats.unread}</div></div>
+                  <div className="stat-card"><div className="stat-label">Reviews <span><Icon name="star" size={14} /></span></div><div className="stat-value">{stats.reviews}</div></div>
                 </div>
                 <h3 style={{ marginBottom: 14 }}>Recent Listings</h3>
                 {myRooms.length === 0 ? (
                   <div className="empty-state">
-                    <div className="empty-icon">🏠</div><h3>No listings yet</h3>
+                    <div className="empty-icon"><Icon name="home" size={40} color="var(--primary)" /></div><h3>No listings yet</h3>
                     <Link href="/manager/rooms/new" className="btn btn-primary" style={{ marginTop: 14 }}>Add Your First Room</Link>
                   </div>
                 ) : (
@@ -131,7 +133,7 @@ export default async function DashboardPage({ searchParams }) {
                     </div>
                     {myRooms.length > 5 && (
                       <Link href="/manager/dashboard?tab=listings" className="btn btn-outline btn-sm" style={{ marginTop: 12 }}>
-                        View all {myRooms.length} listings →
+                        View all {myRooms.length} listings
                       </Link>
                     )}
                   </>
@@ -147,7 +149,7 @@ export default async function DashboardPage({ searchParams }) {
                 </div>
                 {myRooms.length === 0 ? (
                   <div className="empty-state">
-                    <div className="empty-icon">🏠</div><h3>No listings yet</h3>
+                    <div className="empty-icon"><Icon name="home" size={40} color="var(--primary)" /></div><h3>No listings yet</h3>
                     <Link href="/manager/rooms/new" className="btn btn-primary" style={{ marginTop: 14 }}>Add Your First Room</Link>
                   </div>
                 ) : (
@@ -165,7 +167,7 @@ export default async function DashboardPage({ searchParams }) {
               <>
                 <h2 style={{ marginBottom: 20 }}>Student Enquiries ({enquiries.length})</h2>
                 {enquiries.length === 0 ? (
-                  <div className="empty-state"><div className="empty-icon">💬</div><h3>No enquiries yet</h3></div>
+                  <div className="empty-state"><div className="empty-icon"><Icon name="chat" size={40} color="var(--primary)" /></div><h3>No enquiries yet</h3></div>
                 ) : (
                   <div className="enquiry-list">
                     {enquiries.map(e => (
@@ -176,16 +178,16 @@ export default async function DashboardPage({ searchParams }) {
                             <div>
                               <strong>{e.student_name}</strong>
                               <div className="enquiry-meta">
-                                📧 {e.student_email}
-                                {e.student_phone && <> · 📞 {e.student_phone}</>}
+                                {e.student_email}
+                                {e.student_phone && <> · {e.student_phone}</>}
                                 {e.student_whatsapp && (
                                   <> · <a href={whatsAppLink(e.student_whatsapp, `Hi ${e.student_name}, regarding your enquiry about ${e.hostel_name}...`)}
-                                    target="_blank" rel="noopener noreferrer" className="wa-inline-link">💬 WhatsApp Student</a></>
+                                    target="_blank" rel="noopener noreferrer" className="wa-inline-link">WhatsApp Student</a></>
                                 )}
                               </div>
                               {(e.student_course || e.student_level) && (
                                 <div className="enquiry-meta">
-                                  {e.student_course ? `🎓 ${e.student_course}` : ''}{e.student_level ? ` · ${e.student_level}` : ''}
+                                  {e.student_course ? e.student_course : ''}{e.student_level ? ` · ${e.student_level}` : ''}
                                 </div>
                               )}
                             </div>
@@ -199,10 +201,10 @@ export default async function DashboardPage({ searchParams }) {
                         <p className="enquiry-message" style={{ whiteSpace: 'pre-line' }}>{e.message}</p>
                         <div className="enquiry-actions">
                           <a href={`mailto:${e.student_email}?subject=Re: Your enquiry about ${encodeURIComponent(e.hostel_name)}`}
-                            className="btn btn-outline btn-sm">✉ Reply via Email</a>
+                            className="btn btn-outline btn-sm">Reply via Email</a>
                           {e.student_phone && (
                             <a href={whatsAppLink(e.student_phone, `Hi ${e.student_name}, regarding your enquiry about ${e.hostel_name} — ${e.room_identifier}.`)}
-                              target="_blank" rel="noopener noreferrer" className="btn btn-whatsapp btn-sm">💬 WhatsApp</a>
+                              target="_blank" rel="noopener noreferrer" className="btn btn-whatsapp btn-sm"> WhatsApp</a>
                           )}
                           <ConfirmLink href={`/api/rooms?action=delete-enquiry&id=${e.id}`} confirm="Delete this enquiry?" className="btn btn-danger btn-sm">
                             Delete
@@ -219,7 +221,7 @@ export default async function DashboardPage({ searchParams }) {
               <>
                 <h2 style={{ marginBottom: 20 }}>Student Reviews ({reviews.length})</h2>
                 {reviews.length === 0 ? (
-                  <div className="empty-state"><div className="empty-icon">⭐</div><h3>No reviews yet</h3></div>
+                  <div className="empty-state"><div className="empty-icon"><Icon name="star" size={40} color="var(--accent)" /></div><h3>No reviews yet</h3></div>
                 ) : (
                   <div className="enquiry-list">
                     {reviews.map(rv => (
@@ -263,6 +265,12 @@ export default async function DashboardPage({ searchParams }) {
                       <input type="text" name="full_name" className="form-control" defaultValue={profile.full_name} required />
                     </div>
                     <div className="form-group">
+                      <label>Hostel / Property Name</label>
+                      <input type="text" name="hostel_name" className="form-control"
+                        defaultValue={profile.hostel_name || ''} placeholder="e.g. Sunrise Hostel" />
+                      <div className="form-hint">This name is auto-filled on every room listing you create.</div>
+                    </div>
+                    <div className="form-group">
                       <label>Phone Number</label>
                       <input type="tel" name="phone" className="form-control" defaultValue={profile.phone || ''} placeholder="0XX XXX XXXX" />
                     </div>
@@ -292,6 +300,10 @@ export default async function DashboardPage({ searchParams }) {
                     </div>
                     <button type="submit" className="btn btn-primary">Update Password</button>
                   </form>
+
+                  <hr style={{ margin: '24px 0', borderColor: 'var(--border)' }} />
+                  {/* Danger Zone: permanently delete this manager account */}
+                  <DeleteAccountForm />
                 </div>
               </>
             )}
