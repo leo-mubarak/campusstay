@@ -2,6 +2,7 @@
 // Heart / save buttons — replaces the watchlist handlers in main.js
 import { useState } from 'react';
 import { showToast } from './toast';
+import Icon from './Icon';
 
 export default function WatchlistButton({ roomId, initial, variant = 'card', onRemoved }) {
   const [saved, setSaved] = useState(!!initial);
@@ -35,13 +36,13 @@ export default function WatchlistButton({ roomId, initial, variant = 'card', onR
   if (variant === 'lg')
     return (
       <button className={`watchlist-btn-lg ${saved ? 'active' : ''}`} onClick={toggle} disabled={busy}>
-        {saved ? '❤ Saved' : '🤍 Save'}
+        <Icon name="heart" size={14} /> {saved ? 'Saved' : 'Save'}
       </button>
     );
   if (variant === 'full')
     return (
       <button className={`watchlist-btn-full ${saved ? 'active' : ''}`} onClick={toggle} disabled={busy}>
-        {saved ? '❤ Saved to Watchlist' : '🤍 Save to Watchlist'}
+        <Icon name="heart" size={14} /> {saved ? 'Saved to Watchlist' : 'Save to Watchlist'}
       </button>
     );
   return (
@@ -51,7 +52,7 @@ export default function WatchlistButton({ roomId, initial, variant = 'card', onR
       disabled={busy}
       title={saved ? 'Remove from watchlist' : 'Save to watchlist'}
     >
-      {saved ? '❤' : '🤍'}
+      <Icon name="heart" size={16} />
     </button>
   );
 }
